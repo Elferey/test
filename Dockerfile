@@ -2,7 +2,7 @@ FROM maven:3.8.7-openjdk-18-slim as maven_builder
 ENV CATALINA_HOME="/usr/local/tomcat"
 WORKDIR $CATALINA_HOME
 ADD . $CATALINA_HOME
-RUN mvn clean && mvn install
+RUN mvn package
 
 FROM tomcat:9
 ENV CATALINA_HOME="/usr/local/tomcat"
