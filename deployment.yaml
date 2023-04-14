@@ -19,6 +19,14 @@ spec:
           image: elferey/docker_images:first
           ports:
             - containerPort: 9092
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 6
 ---
 
 apiVersion: v1
