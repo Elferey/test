@@ -50,4 +50,11 @@ pipeline {
       retries 1
     }
   }
+  stages {
+    stage ('test') {
+      steps {
+        sh 'ls -l'
+      }
+    }
+  }
 }
