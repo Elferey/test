@@ -1,23 +1,53 @@
 pipeline {
-    agent any
-
-    stages {
-
-        stage ('git') {
-            steps {
-                git 'https://github.com/Elferey/test.git'
-            }
-        }
-
-        stage ('test') {
-            steps {
-                podTemplate(yaml: readTrusted('deployment.yaml')) {
-                node(POD_LABEL) {
-                    }
-                }
-            }
-        }
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: hello-web
+          labels:
+            app: hello-web-apps
+        spec:
+          replicas: 2
+          selector:
+            matchLabels:
+              project: kgb
+          template:
+            metadata:
+              labels:
+                project: kgb
+            spec:
+              containers:
+                - name: kgb-web
+                  image: elferey/docker_images:first
+                  ports:
+                    - containerPort: 9092
+                  readinessProbe:
+                    httpGet:
+                      path: /actuator
+                      port: 9092
+                      scheme: HTTP
+                    timeoutSeconds: 5
+                    periodSeconds: 10
+                    failureThreshold: 6
+                  livenessProbe:
+                    httpGet:
+                      path: /actuator/health
+                      port: 9092
+                      scheme: HTTP
+                    timeoutSeconds: 5
+                    periodSeconds: 10
+                    failureThreshold: 6
+                  startupProbe:
+                    httpGet:
+                      path: /actuator/metrics
+                      port: 9092
+                      scheme: HTTP
+                    periodSeconds: 5
+                    failureThreshold: 36
+        '''
+      retries 1
     }
-
+  }
 }
-
