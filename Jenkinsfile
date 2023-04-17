@@ -3,7 +3,7 @@ pipeline {
     kubernetes {
       yaml '''
         apiVersion: apps/v1
-        kind: Deployment
+        kind: Pod
         metadata:
           name: hello-web
           labels:
