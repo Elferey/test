@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: kgb-web
-          image: elferey/docker_images:first
+          image: elferey/docker_images:$tag
           ports:
             - containerPort: 9092
           readinessProbe:
