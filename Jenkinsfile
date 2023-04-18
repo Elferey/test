@@ -24,7 +24,6 @@ pipeline {
               sh 'docker build -t $image_name .'
               sh 'docker tag $image_name elferey/docker_images:$tag'
               sh 'docker push elferey/docker_images:$tag'
-              sh 'docker rmi `docker images` 2>@ /dev/null'
           }
       }
 
