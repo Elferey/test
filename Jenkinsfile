@@ -32,7 +32,7 @@ pipeline {
           steps {
               sh 'kubectl apply -f deployment.yaml'
               sh 'echo External service IP'
-              sh """kubectl get svc | awk '{print $4}' | head -3 | tail -n1"""
+              sh """kubectl get svc | awk '{print \$4}' | head -3 | tail -n1"""
         }
      }
   }
