@@ -1,4 +1,4 @@
-FROM taoqn/temurin-17-jdk-maven:3.8.6-alpine as build
+FROM imagenarium/jdk-maven:17 as build
 ADD . .
 RUN mvn package
 EXPOSE 8080
