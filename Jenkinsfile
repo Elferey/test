@@ -31,7 +31,7 @@ pipeline {
           steps {
               sh 'kubectl apply -f deployment.yaml'
               sh 'sleep 60s'
-              sh """echo 'External service IP' && kubectl get svc | awk '{print \$4}' | head -3 | tail -n1"""
+              sh """kubectl get svc | awk '{print \$4}' | head -3 | tail -n1 && echo 'This external service IP'"""
         }
      }
   }
