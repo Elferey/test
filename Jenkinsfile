@@ -26,5 +26,11 @@ pipeline {
               sh 'docker push elferey/docker_images:$tag'
           }
       }
+
+      stage ('Deploy to kubernetes') {
+          steps {
+              sh 'kubectl apply -f deployment.yaml'
+        }
+     }
   }
 }
