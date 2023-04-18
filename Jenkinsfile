@@ -24,15 +24,14 @@ pipeline {
               sh 'docker build -t $image_name .'
               sh 'docker tag $image_name elferey/docker_images:$tag'
               sh 'docker push elferey/docker_images:$tag'
-              sh 'docker rmi `docker images`'
+              sh 'docker rmi `docker images` 2>@ /dev/null'
           }
       }
 
       stage ('Deploy to kubernetes') {
           steps {
               sh 'kubectl apply -f deployment.yaml'
-              sh 'echo External service IP'
-              sh """kubectl get svc | awk '{print \$4}' | head -3 | tail -n1"""
+              sh """echo 'External service IP' && kubectl get svc | awk '{print \$4}' | head -3 | tail -n1"""
         }
      }
   }
